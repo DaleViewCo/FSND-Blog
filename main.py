@@ -56,6 +56,7 @@ class BlogHandler(webapp2.RequestHandler):
 
     def login(self, user):
         self.set_secure_cookie('user_id', str(user.key().id()))
+        self.set_secure_cookie('user_name', str(user.name))
 
     def logout(self):
         self.response.headers.add_header('Set-Cookie', 'user_id=; Path=/')
@@ -71,12 +72,6 @@ def render_post(response, post):
     response.out.write(post.content)
 
 
-class MainPage(BlogHandler):
-
-    def get(self):
-        self.render('/login.html')
-
-
 # user stuff
 def make_salt(length=5):
     return ''.join(random.choice(letters) for x in xrange(length))
@@ -86,11 +81,11 @@ def make_pw_hash(name, pw, salt=None):
     if not salt:
         salt = make_salt()
     h = hashlib.sha256(name + pw + salt).hexdigest()
-    return '%s,%s' % (salt, h)
+    return '%s|%s' % (salt, h)
 
 
 def valid_pw(name, password, h):
-    salt = h.split(',')[0]
+    salt = h.split('|')[0]
     return h == make_pw_hash(name, password, salt)
 
 
@@ -136,6 +131,7 @@ def blog_key(name='default'):
 class Post(db.Model):
     subject = db.StringProperty(required=True)
     content = db.TextProperty(required=True)
+    author = db.TextProperty(required=True)
     created = db.DateTimeProperty(auto_now_add=True)
     last_modified = db.DateTimeProperty(auto_now=True)
 
@@ -276,7 +272,6 @@ class Login(BlogHandler):
         u = User.login(username, password)
         if u:
             self.login(u)
-            self.set_secure_cookie('user_name', username)
             self.redirect('/blog')
         else:
             msg = 'Invalid login'
@@ -299,7 +294,7 @@ class Welcome(BlogHandler):
         else:
             self.redirect('/signup')
 
-app = webapp2.WSGIApplication([('/', MainPage),
+app = webapp2.WSGIApplication([('/', Login),
                                ('/blog/?', BlogFront),
                                ('/blog/([0-9]+)', PostPage),
                                ('/blog/newpost', NewPost),
