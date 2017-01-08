@@ -3,9 +3,13 @@
 {% block content %}
 <h2>Welcome, {{ username }}</h2>
 <a href="{{ '/blog/newpost' }}">New Post</a>
-  {% for p in posts %}
-    {{ p.render() | safe }}
-    <br><br>
-  {% endfor %}
+{% for p in posts %}
+{{ p.render() | safe }}
+
+<ul class ="author">Author: {{ p.author }}</ul>
+<ul class ="likes">Likes: {{ p.likes }}</ul>
+
+<br><br>
+{% endfor %}
 
 {% endblock %}

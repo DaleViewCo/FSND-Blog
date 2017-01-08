@@ -18,11 +18,17 @@ class NewPost(BlogHandler):
         subject = self.request.get('subject')
         content = self.request.get('content')
         author = self.read_secure_cookie('user_name')
+        comment_list = ['test comment']
 
         if subject and content:
             p = Post(
                 parent=main.blog_key(),
-                subject=subject, author=author, content=content)
+                subject=subject,
+                author=author,
+                likes=0,
+                content=content,
+                comments=comment_list
+                )
             p.put()
             self.redirect('/blog/%s' % str(p.key().id()))
         else:
