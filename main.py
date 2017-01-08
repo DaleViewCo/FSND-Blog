@@ -144,7 +144,7 @@ class BlogFront(BlogHandler):
 
     def get(self):
         posts = greetings = Post.all().order('-created')
-        username=self.read_secure_cookie('user_name')
+        username = self.read_secure_cookie('user_name')
         self.render('front.html', username=username, posts=posts)
 
 
@@ -153,12 +153,13 @@ class PostPage(BlogHandler):
     def get(self, post_id):
         key = db.Key.from_path('Post', int(post_id), parent=blog_key())
         post = db.get(key)
+        home = 'front.html'
 
         if not post:
             self.error(404)
             return
 
-        self.render("permalink.html", post=post)
+        self.render("permalink.html", post=post, home=home)
 
 
 class NewPost(BlogHandler):
@@ -175,9 +176,12 @@ class NewPost(BlogHandler):
 
         subject = self.request.get('subject')
         content = self.request.get('content')
+        author = self.read_secure_cookie('user_name')
 
         if subject and content:
-            p = Post(parent=blog_key(), subject=subject, content=content)
+            p = Post(
+                parent=blog_key(),
+                subject=subject, author=author, content=content)
             p.put()
             self.redirect('/blog/%s' % str(p.key().id()))
         else:
@@ -296,6 +300,7 @@ class Welcome(BlogHandler):
 
 app = webapp2.WSGIApplication([('/', Login),
                                ('/blog/?', BlogFront),
+                               ('/blog/front', BlogFront),
                                ('/blog/([0-9]+)', PostPage),
                                ('/blog/newpost', NewPost),
                                ('/signup', Register),
