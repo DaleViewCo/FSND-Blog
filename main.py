@@ -16,7 +16,6 @@ from handlers.logout import Logout
 from handlers.newpost import NewPost
 from handlers.postpage import PostPage
 from handlers.register import Register
-from handlers.signup import Signup
 from handlers.welcome import Welcome
 
 
@@ -94,12 +93,12 @@ def valid_email(email):
 
 
 app = webapp2.WSGIApplication([('/', Login),
-                               ('/blog/?', BlogFront),
-                               ('/blog/([0-9]+)', PostPage),
-                               ('/blog/newpost', NewPost),
                                ('/signup', Register),
                                ('/login', Login),
                                ('/logout', Logout),
                                ('/welcome', Welcome),
+                               ('/blog/?', BlogFront),
+                               ('/blog/([0-9]+)', PostPage),
+                               ('/blog/newpost', NewPost),
                                ],
                               debug=True)
