@@ -11,15 +11,16 @@ class Post(db.Model):
     comments = db.ListProperty(str, required=True)
     created = db.DateTimeProperty(auto_now_add=True)
     last_modified = db.DateTimeProperty(auto_now=True)
+    rendered_comments = ''
 
     def render(self):
         comment_db = Comment.all()
-        comment_string = ' '
         if comment_db:
             for comment in comment_db:
                 if comment.key().id() in self.comments:
-                    comment_string = (comment_string + comment.comment)
+                    self.rendered_comments = (self.rendered_comments +
+                                              main.render_str("comment.html",
+                                                              comment=comment))
 
-        self.content += comment_string
         self._render_text = self.content.replace('\n', '<br>')
         return main.render_str("post.html", p=self)

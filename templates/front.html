@@ -5,10 +5,11 @@
 <a href="{{ '/blog/newpost' }}">New Post</a>
 {% for p in posts %}
 {{ p.render() | safe }}
-
 <ul class ="author">Author: {{ p.author }}</ul>
 <ul class ="likes">Likes: {{ p.likes }}</ul>
-
+<ul class="rendered-comments">{{ p.rendered_comments }}</ul>
+<textarea class="comment-text-area"></textarea>
+<button type="button" class="add-comment-button">Add Comment</button>
 <br><br>
 {% endfor %}
 

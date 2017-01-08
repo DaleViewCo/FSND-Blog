@@ -41,6 +41,16 @@ textarea {
   font-family: monospace;
 }
 
+button {
+    border: none;
+    color: black;
+    padding: 5px 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 8px;
+}
+
 input[type=submit] {
   font-size: 24px;
 }
@@ -79,5 +89,10 @@ input[type=submit] {
 
 .post-content {
     margin-top: 5px;
+}
+
+.comment-text-area {
+    width: 500px;
+    height: 50px;
 }
 
