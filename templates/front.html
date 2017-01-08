@@ -2,7 +2,7 @@
 
 {% block content %}
 <h2>Welcome, {{ username }}</h2>
-<a href=blog/newpost>New Post</a>
+<a href="newpost">New Post</a>
   {% for p in posts %}
     {{ p.render() | safe }}
     <br><br>
