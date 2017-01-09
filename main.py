@@ -41,12 +41,6 @@ def check_secure_val(secure_val):
         return val
 
 
-def render_post(response, post):
-    response.out.write('<b>' + post.subject + '</b><br>')
-    response.out.write(post.content)
-
-
-# user stuff
 def make_salt(length=5):
     return ''.join(random.choice(letters) for x in xrange(length))
 

@@ -1,9 +1,15 @@
+{% block content %}
 <div class="post">
   <div class="post-heading">
+  {% if isNotPermaLink == True %}
     <div class="post-title">
-      {{p.subject}}
+      <a href="blog/{{ p.key().id() }} ">{{p.subject}}</a>
     </div>
-
+    {% else %}
+    <div class="post-title">
+      <h3>{{p.subject}}</h3>
+    </div>
+    {% endif %}
     <div class="post-date">
       {{p.created.strftime("%b %d, %Y")}}
     </div>
@@ -13,3 +19,5 @@
     {{p._render_text | safe}}
   </div>
 </div>
+
+{% endblock %}
