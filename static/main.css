@@ -73,6 +73,10 @@ input[type=submit] {
     margin-top: 15px;
 }
 
+.post {
+
+}
+
 .post-heading {
     position: relative;
     border-bottom: 3px solid #666;

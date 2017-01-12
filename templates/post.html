@@ -1,7 +1,7 @@
 {% block content %}
 <div class="post">
   <div class="post-heading">
-  {% if isNotPermaLink == True %}
+    {% if isPermaLink == False %}
     <div class="post-title">
       <a href="blog/{{ p.key().id() }} ">{{p.subject}}</a>
     </div>
@@ -19,5 +19,4 @@
     {{p._render_text | safe}}
   </div>
 </div>
-
 {% endblock %}

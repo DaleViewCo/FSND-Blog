@@ -1,32 +1,15 @@
+{% for c in comment_list %}
 <p class="comment-block">
 <div class="comment">
   <div class="comment-text">
-    {{comment.comment}}
+    {{c.comment}}
   </div>
   <div class="comment-text">
-    {{comment.author}}
+    {{c.author}}
   </div>
   <div class="comment-date">
-    {{comment.created.strftime("%b %d, %Y")}}
+    {{c.created.strftime("%b %d, %Y")}}
   </div>
 </div>
 </p>
-<script type="text/javascript">
-  $(document).ready(function(){
-    // var comment = $('#comment-text-area').val();
-    // var id = $('#post_id').val();
-    var values = {
-      comment_text: "Comment",
-      post_id: "id"
-    };
-
-    $('#add_comment_button').click(function(){
-      $.ajax({
-        type:"POST",
-        data: JSON.stringify(values),
-        dataType: 'json',
-        contentType: 'application/json; charset=utf-8'
-      })
-    });
-  });
-</script>
+{% endfor %}

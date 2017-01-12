@@ -1,6 +1,7 @@
 from handlers.bloghandler import BlogHandler
 from google.appengine.ext import db
 import main
+import json
 
 
 class PostPage(BlogHandler):
@@ -15,3 +16,8 @@ class PostPage(BlogHandler):
             return
 
         self.render("permalink.html", post=post, home=home)
+
+    def post(self):
+        data = json.loads(self.request.body)
+        self.response.out.write(
+            json.dumps(({'comment_content': "Hello World"})))

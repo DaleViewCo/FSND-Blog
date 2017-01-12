@@ -2,4 +2,28 @@
 
 {% block content %}
   {{post.render_without_subject_link() | safe}}
+
+
+
+<a href="javascript:postComment();">Post Comment</a>
+<div class = "post-comments">
+  <p class="comment-content"><!-- {{ comment_html }} --></p>
+</div>
+
+
+<script>
+  function postComment(){
+    $.ajax({
+      type: "POST",
+      url: post.key().id(),
+      dataType: 'JSON',
+      data: JSON.stringify({
+        "comment" : "Hello World"
+      })
+    })
+    .done(function(data){
+      $('.comment-content').text(data['comment_content']['comment_content']);
+    });
+  };
+</script>
 {% endblock %}
