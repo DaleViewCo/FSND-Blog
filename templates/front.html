@@ -5,7 +5,7 @@
 <a href="{{ '/blog/newpost' }}">New Post</a>
 {% for p in posts %}
 <div class = "blog_content">
-	<p>{{ p.render() | safe }}</p>
+	<p>{{ p.render(false) | safe }}</p>
 </div>
 <div class="blog">
 	<p class ="author">Author: {{ p.author }}</p>

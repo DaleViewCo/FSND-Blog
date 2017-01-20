@@ -1,29 +1,26 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<script src="/js/comment.js" language="javascript" type="text/javascript"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/static/main.css">
+	<meta name = "viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="utf-8">
+	<title>FSND Blog</title>
+</head>
+<body>
+<a href="/blog" class="main-title">FSND Blog</a>
+	{% block content %}
+	{{post.render(true) | safe}}
+	<div class = "post-comments">
+		<p class="comment-content">{{ comment_html }}</p>
+	</div>
+	<textarea id="comment-text-area-id" name="comment-text-area"></textarea>
+	<input type="button" onclick="postComment({{ post.key().id() }})" id="post-comment" name="submit-comment" value="submit">
 
-{% block content %}
-  {{post.render_without_subject_link() | safe}}
-
-
-
-<a href="javascript:postComment();">Post Comment</a>
-<div class = "post-comments">
-  <p class="comment-content"><!-- {{ comment_html }} --></p>
-</div>
-
-
-<script>
-  function postComment(){
-    $.ajax({
-      type: "POST",
-      url: post.key().id(),
-      dataType: 'JSON',
-      data: JSON.stringify({
-        "comment" : "Hello World"
-      })
-    })
-    .done(function(data){
-      $('.comment-content').text(data['comment_content']['comment_content']);
-    });
-  };
-</script>
-{% endblock %}
+	{% endblock %}
+</body>
+</html>

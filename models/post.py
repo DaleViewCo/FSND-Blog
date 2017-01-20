@@ -14,20 +14,20 @@ class Post(db.Model):
     created = db.DateTimeProperty(auto_now_add=True)
     last_modified = db.DateTimeProperty(auto_now=True)
 
-    def render(self):
+    def render(self, withComments):
         self._render_text = self.content.replace('\n', '<br>')
-        return main.render_str("post.html", p=self, isPermaLink=False)
+        return main.render_str("post.html", p=self)
 
-    def render_without_subject_link(self):
-        self._render_text = self.content.replace('\n', '<br>')
-        comment_html = ''
-        logging.info("------Self Comments")
-        logging.info(self.comments)
-        for cid in self.comments:
-            key = db.Key.from_path(
-                'Comment', int(cid), parent=main.blog_key())
-            comment_html += Comment.render(db.get(key))
+    # def render_without_subject_link(self):
+    #     self._render_text = self.content.replace('\n', '<br>')
+    #     comment_html = ''
+    #     logging.info("------Self Comments")
+    #     logging.info(self.comments)
+    #     for cid in self.comments:
+    #         key = db.Key.from_path(
+    #             'Comment', int(cid), parent=main.blog_key())
+    #         comment_html += Comment.render(db.get(key))
 
-        return main.render_str("post.html", p=self,
-                               comment_html=comment_html,
-                               isPermaLink=True)
+    #     return main.render_str("post.html", p=self,
+    #                            comment_html=comment_html,
+    #                            isPermaLink=True)
