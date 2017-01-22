@@ -15,6 +15,7 @@ from handlers.blogfront import BlogFront
 from handlers.login import Login
 from handlers.logout import Logout
 from handlers.newpost import NewPost
+from handlers.editpost import EditPost
 from handlers.postpage import PostPage
 from handlers.register import Register
 from handlers.welcome import Welcome
@@ -61,8 +62,6 @@ def valid_pw(name, password, h):
 def users_key(group='default'):
     return db.Key.from_path('users', group)
 
-
-# blog stuff
 
 def blog_key(name='default'):
     return db.Key.from_path('blogs', name)
@@ -129,6 +128,7 @@ app = webapp2.WSGIApplication([('/', Login),
                                ('/welcome', Welcome),
                                ('/blog/?', BlogFront),
                                ('/blog/([0-9]+)', PostPage),
+                               ('/blog/([0-9]+/edit)', EditPost),
                                ('/blog/newpost', NewPost),
                                ],
                               debug=True)

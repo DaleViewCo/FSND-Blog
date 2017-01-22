@@ -18,6 +18,7 @@ class NewPost(BlogHandler):
         subject = self.request.get('subject')
         content = self.request.get('content')
         author = self.read_secure_cookie('user_name')
+        author_id = self.read_secure_cookie('user_id')
         likes = 0
         comment_list = []
 
@@ -26,6 +27,7 @@ class NewPost(BlogHandler):
                 parent=main.blog_key(),
                 subject=subject,
                 author=author,
+                author_id=author_id,
                 likes=likes,
                 content=content,
                 comments=comment_list

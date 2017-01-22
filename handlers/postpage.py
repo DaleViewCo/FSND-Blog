@@ -3,7 +3,6 @@ from models.comment import Comment
 from google.appengine.ext import db
 import main
 import json
-import datetime
 import logging
 
 
@@ -19,14 +18,16 @@ class PostPage(BlogHandler):
             self.error(404)
             return
 
+        is_author = post.author_id == self.read_secure_cookie('user_id')
+        self.set_secure_cookie('post_id', str(post_id))
+
         self.render(
             "permalink.html", post=post, home=home,
-            post_id=post_id)
+            post_id=post_id, is_author=is_author)
 
     def post(self, data):
         if self.user:
             data = main.json_loads_byteified(self.request.body)
-            logging.info(data)
             post_id = data['pid']
             comment_text = data['comment']
 
@@ -42,11 +43,12 @@ class PostPage(BlogHandler):
             post.comments.append(comment_text)
             post.put()
 
+            self.set_secure_cookie('post_id', post_id)
+
             result = {}
-            result['data'] = (main.render_str("comment.html",
-                                                    comment=commentdb))
+            result['data'] = (main.render_str
+                              ("comment.html",
+                               comment=commentdb))
 
             response_data = json.dumps(result)
-            logging.info("Sending response - ")
-            logging.info(response_data)
             self.response.out.write(response_data)

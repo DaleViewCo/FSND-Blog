@@ -2,7 +2,7 @@
 <html>
 <head>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-	<script src="/js/comment.js" language="javascript" type="text/javascript"></script>
+	<script src="/js/edit.js" language="javascript" type="text/javascript"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="/static/main.css">
@@ -14,19 +14,14 @@
 <body>
 	<a href="/blog" class="main-title">FSND Blog</a>
 	{% block content %}
-	{% if is_author %}
-	<a class ="edit-post-link" href="/blog/{{ post.key().id() }}/edit">Edit</a>
-	{% endif %}
-	{{post.render(true) | safe}}
-	<div class = "post-comments">
-		{% for comment in post.comments %}
-		<p class="comment-content" id="existing-comments">{{ comment }}</p>
-		{% endfor %}
-		<p class="comment-content" id="comment-content-id"></p>
+	<div class="post">
+		<div class="post-section">
+			<h2 class="post-title">{{p.subject}}</h2>
+		</div>
+		<textarea class="post-content">{{p.content | safe}}</textarea>
+		<input type="button" name="save-edit" id="save-edit-button" value="Save" onclick="editPost()">
+		<input type="button" name="cancel-edit" id="cancel-edit-button" value="Cancel" onclick="cancelEditPost()">
 	</div>
-	<textarea id="comment-text-area-id" name="comment-text-area"></textarea>
-	<input type="button" onclick="postComment({{ post.key().id() }})" id="post-comment" name="submit-comment" value="submit">
-
 	{% endblock %}
 </body>
 </html>

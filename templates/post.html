@@ -1,9 +1,9 @@
 {% block content %}
 <div class="post">
-  <div class="post-heading">
-    <div class="post-title">
+  <div class="post-section">
+    <h2 class="post-title">
       <a href="/blog/{{ p.key().id() }} ">{{p.subject}}</a>
-    </div>
+    </h2>
     <div class="post-date">
       {{p.created.strftime("%b %d, %Y")}}
     </div>

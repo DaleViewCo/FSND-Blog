@@ -8,9 +8,10 @@ function postComment(post_id){
 			'pid': post_id
 		}),
 		success: function(response){
-			var existingHTML = $("p#comment-content-id").html();
-			existingHTML += response.data;
-			$("p#comment-content-id").html(existingHTML);
+			var newHTML = $("p#comment-content-id").html();
+			newHTML += response.data;
+			$("p#comment-content-id").html('');
+			$("p#comment-content-id").html(newHTML);
 			$("textarea#comment-text-area-id").val('');
 		},
 		error: function(request, status, error){
@@ -18,11 +19,3 @@ function postComment(post_id){
 		}
 	})
 }
-
-// function renderComment(data){
-// 	alert(data);
-// 	$("p#comment-content").text(data);
-// }
-
-// $(document).ready(postComment('123'));
-// $(window).on("load", postComment('123'));
