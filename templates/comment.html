@@ -1,15 +1,12 @@
-{% for c in comment_list %}
-<p class="comment-block">
-<div class="comment">
-  <div class="comment-text">
-    {{c.comment}}
-  </div>
-  <div class="comment-text">
-    {{c.author}}
-  </div>
-  <div class="comment-date">
-    {{c.created.strftime("%b %d, %Y")}}
-  </div>
+{% block content %}
+<div class="comment-block">
+
+	<p class="comment-text">
+		{{comment.comment}}
+	</p>
+	<p class="comment-author">
+		{{comment.author}}
+	</p>
+
 </div>
-</p>
-{% endfor %}
+{% endblock %}

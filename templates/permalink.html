@@ -16,7 +16,7 @@
 	{% block content %}
 	{{post.render(true) | safe}}
 	<div class = "post-comments">
-		<p class="comment-content">{{ comment_html }}</p>
+		<p class="comment-content" id="comment-content-id"></p>
 	</div>
 	<textarea id="comment-text-area-id" name="comment-text-area"></textarea>
 	<input type="button" onclick="postComment({{ post.key().id() }})" id="post-comment" name="submit-comment" value="submit">
