@@ -3,7 +3,6 @@ from models.comment import Comment
 from google.appengine.ext import db
 import main
 import json
-import logging
 
 
 class PostPage(BlogHandler):
@@ -41,8 +40,6 @@ class PostPage(BlogHandler):
             post = db.get(key)
             post.comments.append(comment_text)
             post.put()
-
-            # self.set_secure_cookie('post_id', post_id)
 
             result = {}
             result['data'] = (main.render_str

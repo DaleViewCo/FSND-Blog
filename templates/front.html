@@ -1,17 +1,20 @@
 {% extends "base.html"%}
-
 {% block content %}
-<h2>Welcome, {{ username }}</h2>
-<a href="{{ '/blog/newpost' }}">New Post</a>
+<div class="row">
+	<div class="col-sm-8"></div>
+	<div class=col-sm-2>
+		<p class="welcome">Welcome, {{ username }}</p>
+	</div>
+	<div class="col-sm-2">
+		<a href="{{ '/blog/newpost' }}" class="link">New Post</a>
+	</div>
+</div>
+
 {% for p in posts %}
-<div class = "blog_content">
-	<p>{{ p.render(false) | safe }}</p>
+<div class="row">
+	<div class="col-sm-12">
+		{{ p.render(false) | safe }}
+	</div>
 </div>
-<div class="blog">
-	<p class ="author">Author: {{ p.author }}</p>
-	<p class ="likes">Likes: {{ p.likes }}</p>
-</div>
-
 {% endfor %}
-
 {% endblock %}
