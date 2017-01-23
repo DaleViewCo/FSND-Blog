@@ -19,7 +19,6 @@ class PostPage(BlogHandler):
             return
 
         is_author = post.author_id == self.read_secure_cookie('user_id')
-        self.set_secure_cookie('post_id', str(post_id))
 
         self.render(
             "permalink.html", post=post, home=home,
@@ -43,7 +42,7 @@ class PostPage(BlogHandler):
             post.comments.append(comment_text)
             post.put()
 
-            self.set_secure_cookie('post_id', post_id)
+            # self.set_secure_cookie('post_id', post_id)
 
             result = {}
             result['data'] = (main.render_str

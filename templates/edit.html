@@ -18,9 +18,9 @@
 		<div class="post-section">
 			<h2 class="post-title">{{p.subject}}</h2>
 		</div>
-		<textarea class="post-content">{{p.content | safe}}</textarea>
-		<input type="button" name="save-edit" id="save-edit-button" value="Save" onclick="editPost()">
-		<input type="button" name="cancel-edit" id="cancel-edit-button" value="Cancel" onclick="cancelEditPost()">
+		<textarea class="post-content" id="post-content">{{p.content | safe}}</textarea>
+		<input type="button" name="save-edit" id="save-edit-button" value="Save" onclick="editPost({{ p.key().id() }})">
+		<input type="button" name="cancel-edit" id="cancel-edit-button" value="Cancel" onclick="cancelEditPost({{ p.key().id() }})">
 	</div>
 	{% endblock %}
 </body>

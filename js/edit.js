@@ -1,33 +1,18 @@
-function editPost(){
+function editPost(post_id){
 	var post_content = $("textarea#post-content").val();
 	$.ajax({
 		type: 'post',
 		contentType: 'application/json',
 		dataType: 'json',
 		data: JSON.stringify({
-			'post': post_content,
+			'post': post_content
 		}),
-		success: function(response){
-		},
-		error: function(request, status, error){
-			alert("Error"+request.responseText);
+		success: function(){
+			window.location.replace('/blog/'+ post_id);
 		}
 	})
 }
 
-function cancelEditPost(){
-	$.ajax({
-		type: 'post',
-		contentType: 'application/json',
-		dataType: 'json',
-		data: JSON.stringify({
-			'post': $("#post-content").val(),
-			'pid': post_id
-		}),
-		success: function(response){
-		},
-		error: function(request, status, error){
-			alert("Error"+request.responseText);
-		}
-	})
+function cancelEditPost(post_id){
+	window.location.replace('/blog/'+ post_id);
 }
