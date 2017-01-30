@@ -1,10 +1,12 @@
 function editPost(post_id){
 	var post_content = $("textarea#post-content").val();
+	var subject = $("textarea#post-subject").val();
 	$.ajax({
 		type: 'post',
 		contentType: 'application/json',
 		dataType: 'json',
 		data: JSON.stringify({
+			'subject': subject,
 			'post': post_content
 		}),
 		success: function(){

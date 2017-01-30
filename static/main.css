@@ -1,13 +1,24 @@
-.error {
-    color: red;
-}
-
 body {
     font-family: "Open Sans", sans-serif;
 }
 
 h2 {
     margin: 0px;
+    text-align: center;
+}
+
+h3 {
+    margin: 0px;
+    text-align: center;
+}
+
+h4 {
+    margin: 0px;
+    text-align: center;
+}
+
+button {
+
 }
 
 .main-title {
@@ -19,13 +30,15 @@ h2 {
 }
 
 .welcome    {
-    font-size: 20px;
+    font-size: 15px;
     text-align: center;
+    margin: 0px;
 }
 
 .link   {
     font-size: 15px;
     text-align: center;
+    margin: 0px;
 }
 
 .post-title {
@@ -49,4 +62,35 @@ h2 {
     font-size: 15px;
 }
 
+.comment-text-area  {
+    width:calc(100% - 10px);
+    height:60px;
+    margin: 0px;
+    padding: 0px;
+    border-style: inset;
+    border-width: 2px;
+}
 
+.subject-text-area  {
+    width:calc(100% - 10px);
+    height:50px;
+    margin: 0px;
+    padding: 0px;
+    border-style: inset;
+    border-width: 2px;
+}
+
+.new-post-text-area  {
+    width:calc(100% - 10px);
+    height:800px;
+    margin: 0px;
+    padding: 0px;
+    border-style: inset;
+    border-width: 2px;
+}
+
+.error {
+    font-weight: bold;
+    font-size: 25px;
+    color: red;
+}

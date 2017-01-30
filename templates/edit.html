@@ -12,16 +12,35 @@
 	<title>FSND Blog</title>
 </head>
 <body>
-	<a href="/blog" class="main-title">FSND Blog</a>
-	{% block content %}
-	<div class="post">
-		<div class="post-section">
-			<h2 class="post-title">{{p.subject}}</h2>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<h1 class="main-title"><a href="/blog" class="main-title">FSND Blog</a></h1>
+			</div>
 		</div>
-		<textarea class="post-content" id="post-content">{{p.content | safe}}</textarea>
-		<input type="button" name="save-edit" id="save-edit-button" value="Save" onclick="editPost({{ p.key().id() }})">
-		<input type="button" name="cancel-edit" id="cancel-edit-button" value="Cancel" onclick="cancelEditPost({{ p.key().id() }})">
+		{% block content %}
+		<div class="row">
+			<div class="col-sm-12">
+				<textarea class="subject-text-area" id="post-subject">{{p.subject}}</textarea>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12">
+				<textarea class="new-post-text-area" id="post-content">{{p.content | safe}}</textarea>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-8">
+			</div>
+			<div class="col-sm-2">
+				<input type="button" name="save-edit" id="save-edit-button" value="Save" onclick="editPost({{ p.key().id() }})">
+			</div>
+			<div class="col-sm-2">
+				<input type="button" name="cancel-edit" id="cancel-edit-button" value="Cancel" onclick="cancelEditPost({{ p.key().id() }})">
+			</div>
+		</div>
+		{% endblock %}
 	</div>
-	{% endblock %}
 </body>
 </html>

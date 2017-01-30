@@ -12,21 +12,41 @@
 	<title>FSND Blog</title>
 </head>
 <body>
-	<a href="/blog" class="main-title">FSND Blog</a>
-	{% block content %}
-	{% if is_author %}
-	<a class ="edit-post-link" href="/blog/{{ post.key().id() }}/edit">Edit</a>
-	{% endif %}
-	{{post.render(true) | safe}}
-	<div class = "post-comments">
-		{% for comment in post.comments %}
-		<p class="comment-content" id="existing-comments">{{ comment }}</p>
-		{% endfor %}
-		<p class="comment-content" id="comment-content-id"></p>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<h1 class="main-title"><a href="/blog">FSND Blog</a></h1>
+			</div>
+		</div>
+		{% block content %}
+		{{post.render(true) | safe}}
+		{% if is_author %}
+		<div class="row">
+			<div class="col-sm-2">
+				<a class ="edit-post-link" href="/blog/{{ post.key().id() }}/edit">Edit</a>
+			</div>
+			<div class="col-sm-10"></div>
+		</div>
+		{% endif %}
+		<div class = "row">
+			{% for comment in post.comments %}
+			<div class="col-sm-8">
+				<p class="comment-content" id="existing-comments">{{ comment }}</p>
+			</div>
+			<div class="col-sm-4"></div>
+			{% endfor %}
+			<p class="comment-content" id="comment-content-id"></p>
+		</div>
+		<div class="row">
+			<div class="col-sm-8">
+				<textarea id="comment-text-area-id" name="comment-text-area" class="comment-text-area"></textarea>
+			</div>
+			<div class="col-sm-2">
+				<input type="button" onclick="postComment({{ post.key().id() }})" id="post-comment" name="submit-comment" value="Submit">
+			</div>
+			<div class="col-sm-2"></div>
+		</div>
+		{% endblock %}
 	</div>
-	<textarea id="comment-text-area-id" name="comment-text-area"></textarea>
-	<input type="button" onclick="postComment({{ post.key().id() }})" id="post-comment" name="submit-comment" value="submit">
-
-	{% endblock %}
 </body>
 </html>

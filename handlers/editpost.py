@@ -19,6 +19,7 @@ class EditPost(BlogHandler):
         post = db.get(key)
 
         post.content = data['post']
+        post.subject = data['subject']
         post.put()
 
         result = {}
