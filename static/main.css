@@ -21,6 +21,11 @@ button {
 
 }
 
+.login-label {
+    font-size: 20px;
+    font-weight: bold;
+}
+
 .main-title {
     font-size: 50px;
     text-align: center;
@@ -39,6 +44,15 @@ button {
     font-size: 15px;
     text-align: center;
     margin: 0px;
+}
+
+.login-area {
+    width:calc(100% - 10px);
+    height:30px;
+    margin: 0px;
+    padding: 0px;
+    border-style: inset;
+    border-width: 2px;
 }
 
 .post-title {
