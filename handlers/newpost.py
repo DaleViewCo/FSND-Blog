@@ -21,6 +21,7 @@ class NewPost(BlogHandler):
         author_id = self.read_secure_cookie('user_id')
         likes = 0
         comment_list = []
+        likes_list = []
 
         if subject and content:
             p = Post(
@@ -29,6 +30,7 @@ class NewPost(BlogHandler):
                 author=author,
                 author_id=author_id,
                 likes=likes,
+                likes_list=likes_list,
                 content=content,
                 comments=comment_list
             )
