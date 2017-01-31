@@ -46,6 +46,15 @@ button {
     margin: 0px;
 }
 
+.col-sm-2 {
+    margin: auto;
+}
+
+.logout   {
+    font-size: 15px;
+    margin: auto;
+}
+
 .login-area {
     width:calc(100% - 10px);
     height:30px;

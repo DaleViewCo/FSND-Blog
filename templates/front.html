@@ -1,13 +1,13 @@
 {% extends "base.html"%}
 {% block content %}
 <div class="row">
-	<div class="col-sm-8"></div>
 	<div class=col-sm-2>
 		<p class="welcome">Welcome, {{ username }}</p>
 	</div>
 	<div class="col-sm-2">
 		<a href="{{ '/blog/newpost' }}" class="link">New Post</a>
 	</div>
+	<div class="col-sm-8"></div>
 </div>
 
 {% for p in posts %}

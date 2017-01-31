@@ -5,6 +5,9 @@ from models.user import User
 class Login(BlogHandler):
 
     def get(self):
+        if self.user:
+            self.redirect('/blog')
+
         self.render('login.html')
 
     def post(self):

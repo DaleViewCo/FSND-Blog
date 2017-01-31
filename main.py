@@ -18,7 +18,6 @@ from handlers.newpost import NewPost
 from handlers.editpost import EditPost
 from handlers.postpage import PostPage
 from handlers.register import Register
-from handlers.welcome import Welcome
 
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
@@ -125,7 +124,6 @@ app = webapp2.WSGIApplication([('/', Login),
                                ('/signup', Register),
                                ('/login', Login),
                                ('/logout', Logout),
-                               ('/welcome', Welcome),
                                ('/blog/?', BlogFront),
                                ('/blog/([0-9]+)', PostPage),
                                ('/blog/([0-9]+/edit)', EditPost),

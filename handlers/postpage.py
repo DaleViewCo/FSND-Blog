@@ -3,11 +3,15 @@ from models.comment import Comment
 from google.appengine.ext import db
 import main
 import json
+import logging
 
 
 class PostPage(BlogHandler):
 
     def get(self, post_id):
+        if not self.user:
+            self.redirect("/login")
+
         key = db.Key.from_path('Post', int(post_id), parent=main.blog_key())
         post = db.get(key)
         home = 'front.html'
@@ -19,9 +23,18 @@ class PostPage(BlogHandler):
 
         is_author = post.author_id == self.read_secure_cookie('user_id')
 
+        comment_ids = post.comments
+        comment_list = []
+        for k in comment_ids:
+            logging.info(k)
+            key = db.Key.from_path(
+                'Comment', int(k))
+            comment = db.get(key)
+            comment_list.append(comment.comment)
+
         self.render(
             "permalink.html", post=post, home=home,
-            post_id=post_id, is_author=is_author)
+            post_id=post_id, is_author=is_author, comment_list=comment_list)
 
     def post(self, data):
         if self.user:
@@ -33,12 +46,11 @@ class PostPage(BlogHandler):
                 author=self.read_secure_cookie('user_name'),
                 comment=comment_text,
             )
-            commentdb.put()
-
+            comment_key = commentdb.put()
             key = db.Key.from_path(
                 'Post', int(post_id), parent=main.blog_key())
             post = db.get(key)
-            post.comments.append(comment_text)
+            post.comments.append(str(comment_key.id()))
             post.put()
 
             result = {}

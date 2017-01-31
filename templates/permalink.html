@@ -14,8 +14,11 @@
 <body>
 	<div class="container">
 		<div class="row">
-			<div class="col-sm-12">
-				<h1 class="main-title"><a href="/blog">FSND Blog</a></h1>
+			<div class="col-sm-10">
+				<h1 class="main-title"><a href="/blog" class="main-title">FSND Blog</a></h1>
+			</div>
+			<div class="col-sm-2">
+				<a class="logout" href="/logout">Logout</a>
 			</div>
 		</div>
 		{% block content %}
@@ -29,7 +32,7 @@
 		</div>
 		{% endif %}
 		<div class = "row">
-			{% for comment in post.comments %}
+			{% for comment in comment_list %}
 			<div class="col-sm-8">
 				<p class="comment-text" id="existing-comments">{{ comment }}</p>
 			</div>

@@ -7,6 +7,9 @@ import json
 class EditPost(BlogHandler):
 
     def get(self, url):
+        if not self.user:
+            self.redirect("/login")
+
         post_id = url.replace("/edit",  "")
         key = db.Key.from_path('Post', int(post_id), parent=main.blog_key())
         post = db.get(key)
