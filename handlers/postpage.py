@@ -25,15 +25,16 @@ class PostPage(BlogHandler):
         is_author = post.author_id == user_id
 
         comment_ids = post.comments
-        # comment_list = []
         comment_db_list = []
 
         for k in comment_ids:
             key = db.Key.from_path(
                 'Comment', int(k))
             comment = db.get(key)
-            # comment_list.append(comment.comment)
-            comment_db_list.append(comment)
+            if comment is None:
+                pass
+            else:
+                comment_db_list.append(comment)
 
         self.render(
             "permalink.html", post=post, home=home,
@@ -48,10 +49,10 @@ class PostPage(BlogHandler):
         post = db.get(key)
         user_id = str(self.read_secure_cookie('user_id'))
 
-        is_author = post.author_id == user_id
-        logging.info("IS AUTHOR")
-        logging.info(is_author)
-        comment_text = data['comment']
+        comment_text = None
+
+        if 'comment' in data.keys():
+            comment_text = data['comment']
 
         if self.user and comment_text:
             logging.info(comment_text)
@@ -63,11 +64,14 @@ class PostPage(BlogHandler):
 
             post.comments.append(str(comment_key.id()))
             post.put()
+            is_comment_author = user_id == commentdb.author_id
 
             result = {}
             result['data'] = (main.render_str
                               ("comment.html",
-                               comment=commentdb))
+                               comment=commentdb,
+                               is_comment_author=is_comment_author,
+                               user_id=user_id))
             result['id'] = comment_key.id()
 
             response_data = json.dumps(result)

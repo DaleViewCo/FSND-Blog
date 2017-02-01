@@ -35,26 +35,21 @@
 			<div class="col-sm-10"></div>
 		</div>
 		{% endif %}
+		<div class="row">
+			<div class="col-sm-12">
+				<hr>
+			</div>
+		</div>
 		{% for comment in comment_db_list %}
 		<div class = "row">
-			<div class="col-sm-8">
-				{{ comment.render() | safe }}
+			<div class="col-sm-12">
+				{{ comment.render(user_id) | safe }}
 			</div>
-			{% if comment.author_id == user_id %}
-			<div class="col-sm-4">
-				<a class="link" id="edit-comment" onclick='editComment({{ comment.key().id() }})'>Edit</a>
-			</div>
-			{% else %}
-			<div class="col-sm-4"></div>
-			{% endif %}
 		</div>
 		{% endfor %}
-		<div class = "row">
-			<div class="col-sm-8">
-				<p id="comment-content-id" class="comments"/>
-			</div>
-			<div class="col-sm-4">
-			<a class="link" id="latest-comment-edit-link-id"></a>
+		<div class="row">
+			<div class="col-sm-12">
+				<div id="comment-content-id" class="comment-text"/>
 			</div>
 		</div>
 		<div class="row">

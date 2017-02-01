@@ -14,7 +14,7 @@
   </div>
   {% else %}
   <div class="col-sm-1">
-  <input type="button" id="like-button" class="link" onclick="addLike({{ p.key().id() }})" value="Like" />
+    <input type="button" id="like-button" class="link" onclick="addLike({{ p.key().id() }})" value="Like" />
   </div>
   <div class="col-sm-1">
     <p id="like-count">{{p.likes}}</p>
@@ -29,5 +29,10 @@
     <p class="post-text"> {{p._render_text | safe}}</p>
   </div>
   <div class="col-sm-4"></div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <hr>
+  </div>
 </div>
 {% endblock %}

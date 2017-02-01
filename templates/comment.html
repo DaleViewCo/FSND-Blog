@@ -1,17 +1,16 @@
 {% block content %}
 <div class="row">
 	<div class="col-sm-8">
-		<p class="comment-text">
+		<p class="comment-text" id="{{ comment.key().id() }}">
 			{{comment.comment}}
 		</p>
 	</div>
-	{% if is_comment_author %}
+	{% if comment.author_id == user_id %}
 	<div class="col-sm-4">
-		<input type="button" class="link" id="edit-comment"></p>
+		<a class="link" id="{{ comment.key().id() }}" onclick="editComment({{ comment.key().id() }})">Edit</a>
 	</div>
 	{% else %}
-	<div class="col-sm-4">
-	</div>
+	<div class="col-sm-4"></div>
 	{% endif %}
 </div>
 {% endblock %}
