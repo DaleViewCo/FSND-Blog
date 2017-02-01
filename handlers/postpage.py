@@ -21,20 +21,24 @@ class PostPage(BlogHandler):
             self.error(404)
             return
 
-        is_author = post.author_id == self.read_secure_cookie('user_id')
+        user_id = self.read_secure_cookie('user_id')
+        is_author = post.author_id == user_id
 
         comment_ids = post.comments
-        comment_list = []
+        # comment_list = []
+        comment_db_list = []
 
         for k in comment_ids:
             key = db.Key.from_path(
                 'Comment', int(k))
             comment = db.get(key)
-            comment_list.append(comment.comment)
+            # comment_list.append(comment.comment)
+            comment_db_list.append(comment)
 
         self.render(
             "permalink.html", post=post, home=home,
-            post_id=post_id, is_author=is_author, comment_list=comment_list)
+            post_id=post_id, is_author=is_author,
+            comment_db_list=comment_db_list, user_id=user_id)
 
     def post(self, data):
         data = main.json_loads_byteified(self.request.body)
@@ -42,13 +46,17 @@ class PostPage(BlogHandler):
         key = db.Key.from_path(
             'Post', int(post_id), parent=main.blog_key())
         post = db.get(key)
+        user_id = str(self.read_secure_cookie('user_id'))
 
-        is_author = post.author_id == self.read_secure_cookie('user_id')
+        is_author = post.author_id == user_id
+        logging.info("IS AUTHOR")
+        logging.info(is_author)
+        comment_text = data['comment']
 
-        if self.user and is_author:
-            comment_text = data['comment']
+        if self.user and comment_text:
+            logging.info(comment_text)
             commentdb = Comment(
-                author=self.read_secure_cookie('user_name'),
+                author_id=user_id,
                 comment=comment_text,
             )
             comment_key = commentdb.put()
@@ -60,20 +68,19 @@ class PostPage(BlogHandler):
             result['data'] = (main.render_str
                               ("comment.html",
                                comment=commentdb))
+            result['id'] = comment_key.id()
 
             response_data = json.dumps(result)
             self.response.out.write(response_data)
 
         else:
             liked_by_authors = post.likes_list
-            user_id = str(self.read_secure_cookie('user_id'))
             if user_id in liked_by_authors:
                 result = {}
                 result['data'] = post.likes
                 response_data = json.dumps(result)
             else:
                 liked_by_authors.append(user_id)
-                logging.info(liked_by_authors)
                 post.likes_list = liked_by_authors
                 post.likes = post.likes + 1
                 post.put()

@@ -94,6 +94,10 @@ button {
     border-width: 2px;
 }
 
+.existing-comment {
+
+}
+
 .subject-text-area  {
     width:calc(100% - 10px);
     height:50px;
