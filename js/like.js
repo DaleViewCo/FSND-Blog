@@ -4,7 +4,8 @@ function addLike(post_id){
 		contentType: 'application/json',
 		dataType: 'json',
 		data: JSON.stringify({
-			'pid': post_id
+			'pid': post_id,
+			'type': "Like"
 		}),
 		success: function(response){
 			$("p#like-count").html('');

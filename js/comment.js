@@ -9,7 +9,8 @@ function postComment(post_id){
 		dataType: 'json',
 		data: JSON.stringify({
 			'comment': content,
-			'pid': post_id
+			'pid': post_id,
+			'type': "NewComment"
 		}),
 		success: function(response){
 			var newHTML = $("div#comment-content-id").html();
@@ -29,5 +30,33 @@ function postComment(post_id){
 }
 
 function editComment(comment_id){
+	var existing = $("p#" + comment_id).text().trim();
+	var edit_area = $("<textarea id=" +comment_id+" class='edit-comment-text'" +
+		"onkeypress = 'submitEdit(event, "+comment_id+")'/>");
+	edit_area.val(existing);
+	$("p#" + comment_id).replaceWith(edit_area);
+}
 
+function submitEdit(event, comment_id){
+	if(event.which == 13){
+		var new_text = $("textarea#" + comment_id).val().trim();
+		$.ajax({
+			type: 'post',
+			contentType: 'application/json',
+			dataType: 'json',
+			data: JSON.stringify({
+				'comment-id': comment_id,
+				'edited-comment': new_text,
+				'type': "EditComment"
+			}),
+			success: function(response){
+				var new_comment = $("<p id="+comment_id+" class=comment-text/>");
+				new_comment.text(new_text);
+				$("textarea#"+comment_id).replaceWith(new_comment);
+			},
+			error: function(response){
+				alert("Error");
+			}
+		})
+	}
 }

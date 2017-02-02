@@ -43,24 +43,22 @@ class PostPage(BlogHandler):
 
     def post(self, data):
         data = main.json_loads_byteified(self.request.body)
-        post_id = data['pid']
-        key = db.Key.from_path(
-            'Post', int(post_id), parent=main.blog_key())
-        post = db.get(key)
+        post_type = data['type']
+
         user_id = str(self.read_secure_cookie('user_id'))
 
-        comment_text = None
-
-        if 'comment' in data.keys():
+        if self.user and post_type == "NewComment":
             comment_text = data['comment']
-
-        if self.user and comment_text:
-            logging.info(comment_text)
             commentdb = Comment(
                 author_id=user_id,
                 comment=comment_text,
             )
             comment_key = commentdb.put()
+
+            post_id = data['pid']
+            key = db.Key.from_path(
+                'Post', int(post_id), parent=main.blog_key())
+            post = db.get(key)
 
             post.comments.append(str(comment_key.id()))
             post.put()
@@ -77,18 +75,40 @@ class PostPage(BlogHandler):
             response_data = json.dumps(result)
             self.response.out.write(response_data)
 
+        elif self.user and post_type == "EditComment":
+            comment_text = data['edited-comment']
+            comment_id = data['comment-id']
+            logging.info(comment_text)
+
+            comment_key = db.Key.from_path(
+                'Comment', int(comment_id))
+            commentdb = db.get(comment_key)
+            commentdb.comment = comment_text
+            commentdb.put()
+            result = {}
+            result['data'] = comment_text
+            response_data = json.dumps(result)
+            self.response.out.write(response_data)
+
         else:
-            liked_by_authors = post.likes_list
-            if user_id in liked_by_authors:
-                result = {}
-                result['data'] = post.likes
-                response_data = json.dumps(result)
-            else:
-                liked_by_authors.append(user_id)
-                post.likes_list = liked_by_authors
-                post.likes = post.likes + 1
-                post.put()
-                result = {}
-                result['data'] = post.likes
-                response_data = json.dumps(result)
-                self.response.out.write(response_data)
+            post_id = data['pid']
+            key = db.Key.from_path(
+                'Post', int(post_id), parent=main.blog_key())
+            post = db.get(key)
+
+            if post_type == "Like":
+                liked_by_authors = post.likes_list
+                if user_id in liked_by_authors:
+                    result = {}
+                    result['data'] = post.likes
+                    response_data = json.dumps(result)
+                else:
+                    liked_by_authors.append(user_id)
+                    post.likes_list = liked_by_authors
+                    post.likes = post.likes + 1
+                    post.put()
+                    result = {}
+                    result['data'] = post.likes
+                    response_data = json.dumps(result)
+
+            self.response.out.write(response_data)
