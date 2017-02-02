@@ -47,7 +47,26 @@ class PostPage(BlogHandler):
 
         user_id = str(self.read_secure_cookie('user_id'))
 
-        if self.user and post_type == "NewComment":
+        if self.user and post_type == "DeletePost":
+            post_id = data['pid']
+            key = db.Key.from_path(
+                'Post', int(post_id), parent=main.blog_key())
+            post = db.get(key)
+
+            for cid in post.comments:
+                comment_key = db.Key.from_path(
+                    'Comment', int(cid))
+                commentdb = db.get(comment_key)
+                commentdb.delete()
+
+            post.delete()
+            result = {}
+            result['data'] = ""
+            response_data = json.dumps(result)
+            self.response.out.write(response_data)
+            # self.redirect('/')
+
+        elif self.user and post_type == "NewComment":
             post_id = data['pid']
             key = db.Key.from_path(
                 'Post', int(post_id), parent=main.blog_key())

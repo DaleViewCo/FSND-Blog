@@ -18,3 +18,18 @@ function editPost(post_id){
 function cancelEditPost(post_id){
 	window.location.replace('/blog/'+ post_id);
 }
+
+function deletePost(post_id){
+	$.ajax({
+		type: 'post',
+		contentType: 'application/json',
+		dataType: 'json',
+		data: JSON.stringify({
+			'pid': post_id,
+			'type': "DeletePost"
+		}),
+		success: function(response){
+			window.location.replace('/login');
+		}
+	})
+}
