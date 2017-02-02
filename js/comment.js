@@ -1,5 +1,5 @@
 function postComment(post_id){
-	var content = $("#comment-text-area-id").val();
+	var content = $("#comment-text-area-id").val().trim();
 	if(content == ''){
 		return;
 	}
@@ -29,15 +29,15 @@ function postComment(post_id){
 	})
 }
 
-function editComment(comment_id){
+function editComment(comment_id, post_id){
 	var existing = $("p#" + comment_id).text().trim();
 	var edit_area = $("<textarea id=" +comment_id+" class='edit-comment-text'" +
-		"onkeypress = 'submitEdit(event, "+comment_id+")'/>");
+		"onkeypress = 'submitEdit(event, "+comment_id+", "+ post_id+")'/>");
 	edit_area.val(existing);
 	$("p#" + comment_id).replaceWith(edit_area);
 }
 
-function submitEdit(event, comment_id){
+function submitEdit(event, comment_id, post_id){
 	if(event.which == 13){
 		var new_text = $("textarea#" + comment_id).val().trim();
 		$.ajax({
@@ -45,6 +45,7 @@ function submitEdit(event, comment_id){
 			contentType: 'application/json',
 			dataType: 'json',
 			data: JSON.stringify({
+				'pid': post_id,
 				'comment-id': comment_id,
 				'edited-comment': new_text,
 				'type': "EditComment"
@@ -59,4 +60,25 @@ function submitEdit(event, comment_id){
 			}
 		})
 	}
+}
+
+function deleteComment(comment_id, post_id){
+	$.ajax({
+		type: 'post',
+		contentType: 'application/json',
+		dataType: 'json',
+		data: JSON.stringify({
+			'type': "DeleteComment",
+			'comment-id': comment_id,
+			'pid': post_id
+		}),
+		success: function(response){
+			$("p#"+comment_id).remove();
+			$("a#edit-"+comment_id).remove();
+			$("a#delete-"+comment_id).remove();
+		},
+		error: function(reponse){
+			alert("Delete Error");
+		}
+	})
 }

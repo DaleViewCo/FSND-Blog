@@ -48,18 +48,18 @@ class PostPage(BlogHandler):
         user_id = str(self.read_secure_cookie('user_id'))
 
         if self.user and post_type == "NewComment":
-            comment_text = data['comment']
-            commentdb = Comment(
-                author_id=user_id,
-                comment=comment_text,
-            )
-            comment_key = commentdb.put()
-
             post_id = data['pid']
             key = db.Key.from_path(
                 'Post', int(post_id), parent=main.blog_key())
             post = db.get(key)
 
+            comment_text = data['comment']
+            commentdb = Comment(
+                author_id=user_id,
+                comment=comment_text,
+                post_id=str(post_id)
+            )
+            comment_key = commentdb.put()
             post.comments.append(str(comment_key.id()))
             post.put()
             is_comment_author = user_id == commentdb.author_id
@@ -78,7 +78,6 @@ class PostPage(BlogHandler):
         elif self.user and post_type == "EditComment":
             comment_text = data['edited-comment']
             comment_id = data['comment-id']
-            logging.info(comment_text)
 
             comment_key = db.Key.from_path(
                 'Comment', int(comment_id))
@@ -87,6 +86,26 @@ class PostPage(BlogHandler):
             commentdb.put()
             result = {}
             result['data'] = comment_text
+            response_data = json.dumps(result)
+            self.response.out.write(response_data)
+
+        elif self.user and post_type == "DeleteComment":
+            post_id = data['pid']
+            comment_id = data['comment-id']
+
+            comment_key = db.Key.from_path(
+                'Comment', int(comment_id))
+            commentdb = db.get(comment_key)
+            commentdb.delete()
+
+            key = db.Key.from_path(
+                'Post', int(post_id), parent=main.blog_key())
+            post = db.get(key)
+            post.comments.remove(str(comment_id))
+            post.put()
+
+            result = {}
+            result['data'] = "deleted"
             response_data = json.dumps(result)
             self.response.out.write(response_data)
 
