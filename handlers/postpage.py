@@ -14,6 +14,10 @@ class PostPage(BlogHandler):
 
         key = db.Key.from_path('Post', int(post_id), parent=main.blog_key())
         post = db.get(key)
+        if not post:
+            self.redirect('/blog')
+            return
+
         home = 'front.html'
         post_id = post.key().id()
 

@@ -29,7 +29,22 @@ function deletePost(post_id){
 			'type': "DeletePost"
 		}),
 		success: function(response){
-			window.location.replace('/login');
+			var new_html = '<div class="container">'+
+			'<div class="row">'+
+			'<div class="col-sm-10">'+
+			'<h1 class="main-title"><a href="/blog" class="main-title">FSND Blog</a></h1>'+
+			'</div>'+
+			'<div class="col-sm-2">'+
+			'<a class="logout" href="/logout">Logout</a>'+
+			'</div>'+
+			'</div>'+
+			'<div class="row">'+
+			'<div class="col-sm-12"><hr></div>'+
+			'</div>'+
+			'</div>';
+
+			$("div#permalink").replaceWith(new_html);
+			// window.location.replace('/blog');
 		}
 	})
 }
