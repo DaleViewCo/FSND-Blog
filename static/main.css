@@ -17,8 +17,15 @@ h4 {
     text-align: center;
 }
 
-button {
+.btn {
+  color: #000000;
+  font-size: 15px;
+  background: #ffffff;
+  padding: 10px 10px 10px 10px;
+}
 
+.logout {
+    width: 100%;
 }
 
 .login-label {
@@ -31,71 +38,76 @@ button {
     text-align: center;
 }
 
-.top-level-content {
-}
-
 .welcome    {
     font-size: 15px;
     text-align: center;
+    font-weight: bold;
     margin: 0px;
 }
 
+
 .link   {
     font-size: 15px;
-    text-align: center;
-    margin: 0px;
+    margin: auto;
+    display: flex;
+    align-items: center;
 }
 
 .col-sm-2 {
     margin: auto;
 }
 
-.logout   {
-    font-size: 15px;
-    margin: auto;
-}
 
 .login-area {
     width:calc(100% - 10px);
     height:30px;
     margin: 0px;
     padding: 0px;
-    border-style: inset;
+    border-style: groove;
     border-width: 2px;
 }
 
 .post-title {
     text-align: center;
-    font-size: 25px;
+    font-size: 30px;
     font-weight: bold;
+}
+
+.post-text {
+    font-size: 25px;
+    background-color: #FFFAF0;
+}
+
+.comment-text {
+    font-size: 15px;
+    background-color: #f2f2f2;
 }
 
 .post-author {
     text-align: center;
     font-size: 15px;
+    padding: 10px 10px 10px 10px;
 }
 
 .post-likes {
     text-align: center;
     font-size: 15px;
+    padding: 10px 10px 10px 10px;
 }
 
 .post-date {
     text-align: center;
     font-size: 15px;
+    padding: 10px 10px 10px 10px;
 }
 
 .comment-text-area  {
     width:calc(100% - 10px);
     height:60px;
     margin: 0px;
-    padding: 0px;
-    border-style: inset;
+    padding: 5px;
+    border-style: groove;
     border-width: 2px;
-}
-
-.existing-comment {
-
 }
 
 .subject-text-area  {
@@ -103,7 +115,7 @@ button {
     height:50px;
     margin: 0px;
     padding: 0px;
-    border-style: inset;
+    border-style: groove;
     border-width: 2px;
 }
 
@@ -112,12 +124,12 @@ button {
     height:500px;
     margin: 0px;
     padding: 0px;
-    border-style: inset;
+    border-style: groove;
     border-width: 2px;
 }
 
 .error {
     font-weight: bold;
-    font-size: 25px;
+    font-size: 15px;
     color: red;
 }

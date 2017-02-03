@@ -1,13 +1,21 @@
 {% extends "base.html"%}
 {% block content %}
 <div class="row">
-	<div class=col-sm-2>
+	<div class=col-sm-6>
 		<p class="welcome">Welcome, {{ username }}</p>
 	</div>
-	<div class="col-sm-2">
+	<div class="col-sm-4">
 		<a href="{{ '/blog/newpost' }}" class="link">New Post</a>
 	</div>
-	<div class="col-sm-8"></div>
+	<div class="col-sm-2">
+		<a class="logout" href="/logout">Logout</a>
+	</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<hr>
+		</div>
+	</div>
+
 </div>
 
 {% for p in posts %}

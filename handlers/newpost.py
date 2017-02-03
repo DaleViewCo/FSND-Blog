@@ -37,6 +37,6 @@ class NewPost(BlogHandler):
             p.put()
             self.redirect('/blog/%s' % str(p.key().id()))
         else:
-            error = "Missing Subject/Content!"
+            error = "Please do write something!!"
             self.render(
                 "newpost.html", subject=subject, content=content, error=error)

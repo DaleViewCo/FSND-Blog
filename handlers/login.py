@@ -8,7 +8,7 @@ class Login(BlogHandler):
         if self.user:
             self.redirect('/blog')
 
-        self.render('login.html')
+        self.render('login.html', msg="")
 
     def post(self):
         username = self.request.get('username')
@@ -20,4 +20,4 @@ class Login(BlogHandler):
             self.redirect('/blog')
         else:
             msg = 'Invalid login'
-            self.render('login.html', error=msg)
+            self.render('login.html', msg=msg)
