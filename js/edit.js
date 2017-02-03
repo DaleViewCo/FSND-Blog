@@ -11,6 +11,9 @@ function editPost(post_id){
 		}),
 		success: function(){
 			window.location.replace('/blog/'+ post_id);
+		},
+		error: function(){
+			cancelEditPost(post_id);
 		}
 	})
 }
@@ -29,6 +32,9 @@ function deletePost(post_id){
 			'type': "DeletePost"
 		}),
 		success: function(response){
+			// remove the entire permalink content and replace with
+			// empty
+
 			var new_html = '<div class="container">'+
 			'<div class="row">'+
 			'<div class="col-sm-10">'+

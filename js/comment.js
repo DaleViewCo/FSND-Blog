@@ -24,12 +24,14 @@ function postComment(post_id){
 			$("textarea#comment-text-area-id").val('');
 		},
 		error: function(request, status, error){
-			alert("Error"+request.responseText);
+			// alert("Error"+request.responseText);
 		}
 	})
 }
 
 function editComment(comment_id, post_id){
+	//Get the text from <p>, replace with <textarea> and show the text
+
 	var existing = $("p#" + comment_id).text().trim();
 	var edit_area = $("<textarea id=" +comment_id+" class='comment-text-area'" +
 		"onkeypress = 'submitEdit(event, "+comment_id+", "+ post_id+")'/>");
@@ -38,6 +40,7 @@ function editComment(comment_id, post_id){
 }
 
 function submitEdit(event, comment_id, post_id){
+	// save edit on hitting enter
 	if(event.which == 13){
 		var new_text = $("textarea#" + comment_id).val().trim();
 		$.ajax({
@@ -56,7 +59,7 @@ function submitEdit(event, comment_id, post_id){
 				$("textarea#"+comment_id).replaceWith(new_comment);
 			},
 			error: function(response){
-				alert("Error");
+				// alert("Error");
 			}
 		})
 	}
@@ -78,7 +81,7 @@ function deleteComment(comment_id, post_id){
 			$("a#delete-"+comment_id).remove();
 		},
 		error: function(reponse){
-			alert("Delete Error");
+			// alert("Delete Error");
 		}
 	})
 }

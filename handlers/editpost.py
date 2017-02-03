@@ -16,6 +16,9 @@ class EditPost(BlogHandler):
         self.render("edit.html", p=post)
 
     def post(self, url):
+        if not self.user:
+            return
+
         # get post id from the url
         post_id = url.replace("/edit",  "")
 
