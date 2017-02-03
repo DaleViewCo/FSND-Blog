@@ -33,14 +33,14 @@
 		{{post.renderWithLikeButton(is_author) | safe}}
 		{% if is_author %}
 		<div class="row">
+			<div class="col-sm-8"></div>
 			<div class="col-sm-2">
 				<a class ="link" href="/blog/{{ post.key().id() }}/edit">Edit</a>
 			</div>
 			<div class="col-sm-2">
 				<a class ="link" onclick="deletePost({{  post.key().id()  }})">Delete</a>
 			</div>
-			<div class="col-sm-8"></div>
-		</div>
+		</div><hr>
 		{% endif %}
 		{% for comment in comment_db_list %}
 		<div class = "row">

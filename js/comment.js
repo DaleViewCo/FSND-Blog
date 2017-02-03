@@ -24,7 +24,7 @@ function postComment(post_id){
 			$("textarea#comment-text-area-id").val('');
 		},
 		error: function(request, status, error){
-			// alert("Error"+request.responseText);
+			window.location.replace('/blog/'+ post_id);
 		}
 	})
 }

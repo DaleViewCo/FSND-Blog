@@ -55,11 +55,13 @@ class PostPage(BlogHandler):
         data = main.json_loads_byteified(self.request.body)
 
         # get type of operation
+
         post_type = data['type']
 
         user_id = str(self.read_secure_cookie('user_id'))
 
         if self.user and post_type == "DeletePost":
+
             # Delete Post and associated comments
 
             post_id = data['pid']
@@ -80,6 +82,7 @@ class PostPage(BlogHandler):
             self.response.out.write(response_data)
 
         elif self.user and post_type == "NewComment":
+
             # create new Comment and associate with the Post
 
             post_id = data['pid']
@@ -110,6 +113,7 @@ class PostPage(BlogHandler):
             self.response.out.write(response_data)
 
         elif self.user and post_type == "EditComment":
+
             # update comment text in Comment
 
             comment_text = data['edited-comment']
@@ -126,6 +130,7 @@ class PostPage(BlogHandler):
             self.response.out.write(response_data)
 
         elif self.user and post_type == "DeleteComment":
+
             # delete from Comment and remove association from Post
 
             post_id = data['pid']
@@ -148,13 +153,18 @@ class PostPage(BlogHandler):
             self.response.out.write(response_data)
 
         else:
+            if not self.user:
+                return
+
             # must have hit the Like button (only shown when user != author)
+
             post_id = data['pid']
             key = db.Key.from_path(
                 'Post', int(post_id), parent=main.blog_key())
             post = db.get(key)
 
             # only increment like count if not liked yet by the user
+
             if post_type == "Like":
                 liked_by_authors = post.likes_list
                 if user_id in liked_by_authors:
