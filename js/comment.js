@@ -31,7 +31,7 @@ function postComment(post_id){
 
 function editComment(comment_id, post_id){
 	var existing = $("p#" + comment_id).text().trim();
-	var edit_area = $("<textarea id=" +comment_id+" class='edit-comment-text'" +
+	var edit_area = $("<textarea id=" +comment_id+" class='comment-text-area'" +
 		"onkeypress = 'submitEdit(event, "+comment_id+", "+ post_id+")'/>");
 	edit_area.val(existing);
 	$("p#" + comment_id).replaceWith(edit_area);

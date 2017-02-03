@@ -3,7 +3,6 @@ from models.comment import Comment
 from google.appengine.ext import db
 import main
 import json
-import logging
 
 
 class PostPage(BlogHandler):
@@ -14,6 +13,11 @@ class PostPage(BlogHandler):
 
         key = db.Key.from_path('Post', int(post_id), parent=main.blog_key())
         post = db.get(key)
+
+        '''
+        when the existing post is deleted, hitting back/copy pasting url with
+        post id should not go to blank page
+        '''
         if not post:
             self.redirect('/blog')
             return
@@ -31,6 +35,8 @@ class PostPage(BlogHandler):
         comment_ids = post.comments
         comment_db_list = []
 
+        # check if Post has associated comments
+
         for k in comment_ids:
             key = db.Key.from_path(
                 'Comment', int(k))
@@ -47,11 +53,15 @@ class PostPage(BlogHandler):
 
     def post(self, data):
         data = main.json_loads_byteified(self.request.body)
+
+        # get type of operation
         post_type = data['type']
 
         user_id = str(self.read_secure_cookie('user_id'))
 
         if self.user and post_type == "DeletePost":
+            # Delete Post and associated comments
+
             post_id = data['pid']
             key = db.Key.from_path(
                 'Post', int(post_id), parent=main.blog_key())
@@ -68,9 +78,10 @@ class PostPage(BlogHandler):
             result['data'] = ""
             response_data = json.dumps(result)
             self.response.out.write(response_data)
-            # self.redirect('/')
 
         elif self.user and post_type == "NewComment":
+            # create new Comment and associate with the Post
+
             post_id = data['pid']
             key = db.Key.from_path(
                 'Post', int(post_id), parent=main.blog_key())
@@ -99,6 +110,8 @@ class PostPage(BlogHandler):
             self.response.out.write(response_data)
 
         elif self.user and post_type == "EditComment":
+            # update comment text in Comment
+
             comment_text = data['edited-comment']
             comment_id = data['comment-id']
 
@@ -113,6 +126,8 @@ class PostPage(BlogHandler):
             self.response.out.write(response_data)
 
         elif self.user and post_type == "DeleteComment":
+            # delete from Comment and remove association from Post
+
             post_id = data['pid']
             comment_id = data['comment-id']
 
@@ -133,11 +148,13 @@ class PostPage(BlogHandler):
             self.response.out.write(response_data)
 
         else:
+            # must have hit the Like button (only shown when user != author)
             post_id = data['pid']
             key = db.Key.from_path(
                 'Post', int(post_id), parent=main.blog_key())
             post = db.get(key)
 
+            # only increment like count if not liked yet by the user
             if post_type == "Like":
                 liked_by_authors = post.likes_list
                 if user_id in liked_by_authors:

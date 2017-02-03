@@ -8,8 +8,8 @@ function addLike(post_id){
 			'type': "Like"
 		}),
 		success: function(response){
-			$("p#like-count").html('');
-			$("p#like-count").html(response.data);
+			$("div#like-count").html('');
+			$("div#like-count").html(response.data);
 		},
 		error: function(request, status, error){
 			alert(response);

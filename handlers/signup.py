@@ -38,4 +38,4 @@ class Signup(BlogHandler):
             self.done()
 
     def done(self, *a, **kw):
-        raise NotImplementedError
+        pass
