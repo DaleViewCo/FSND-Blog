@@ -84,7 +84,7 @@ EMAIL_RE = re.compile(r'^[\S]+@[\S]+\.[\S]+$')
 def valid_email(email):
     return not email or EMAIL_RE.match(email)
 
-# reading json to string from Stack Overflow
+# reading json to string (Stack Overflow)
 
 
 def json_load_byteified(file_handle):
