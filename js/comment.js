@@ -5,6 +5,7 @@ function postComment(post_id){
 	}
 	$.ajax({
 		type: 'post',
+		url: '/blog/newcomment',
 		contentType: 'application/json',
 		dataType: 'json',
 		data: JSON.stringify({

@@ -18,6 +18,8 @@ from handlers.newpost import NewPost
 from handlers.editpost import EditPost
 from handlers.postpage import PostPage
 from handlers.register import Register
+from handlers.deletepost import DeletePost
+from handlers.newcomment import NewComment
 
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
@@ -128,5 +130,7 @@ app = webapp2.WSGIApplication([('/', Login),
                                ('/blog/([0-9]+)', PostPage),
                                ('/blog/([0-9]+/edit)', EditPost),
                                ('/blog/newpost', NewPost),
+                               ('/blog/deletepost', DeletePost),
+                               ('/blog/newcomment', NewComment)
                                ],
                               debug=True)

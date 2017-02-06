@@ -1,4 +1,5 @@
 import webapp2
+from google.appengine.ext import db
 import main
 from models.user import User
 
@@ -31,6 +32,47 @@ class BlogHandler(webapp2.RequestHandler):
 
     def logout(self):
         self.response.headers.add_header('Set-Cookie', 'user_id=; Path=/')
+
+    def is_author(self, entry):
+        return (self.user and entry
+                and self.read_secure_cookie('user_id') == str(entry.author_id))
+
+    def is_valid_post(self, post_id):
+        post = self.get_post(post_id)
+        if post:
+            return post
+        else:
+            self.error(404)
+            return
+
+    def is_valid_comment(self, comment_id):
+        comment = self.get_comment(comment_id)
+        if comment:
+            return comment
+        else:
+            self.error(404)
+            return
+
+    def get_post(self, post_id):
+        key = db.Key.from_path('Post', int(post_id), parent=main.blog_key())
+        post = db.get(key)
+        return post
+
+    def get_comment(self, comment_id):
+        comment_key = db.Key.from_path(
+            'Comment', int(comment_id))
+        commentdb = db.get(comment_key)
+        return commentdb
+
+    # def post_exists(function):
+    #     def check_post(self, post_id):
+    #         key = db.Key.from_path('Post', int(post_id))
+    #         post = db.get(key)
+    #         if post:
+    #             return function(self, post)
+    #         else:
+    #             self.error(404)
+    #             return
 
     def initialize(self, *a, **kw):
         webapp2.RequestHandler.initialize(self, *a, **kw)

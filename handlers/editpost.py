@@ -9,22 +9,31 @@ class EditPost(BlogHandler):
     def get(self, url):
         if not self.user:
             self.redirect("/login")
+            return
 
         post_id = url.replace("/edit",  "")
-        key = db.Key.from_path('Post', int(post_id), parent=main.blog_key())
-        post = db.get(key)
+        post = self.is_valid_post(post_id)
+
+        if not self.is_author(post):
+            self.redirect('/blog')
+            return
+
         self.render("edit.html", p=post)
 
     def post(self, url):
         if not self.user:
+            self.redirect("/login")
             return
 
         # get post id from the url
         post_id = url.replace("/edit",  "")
 
         data = main.json_loads_byteified(self.request.body)
-        key = db.Key.from_path('Post', int(post_id), parent=main.blog_key())
-        post = db.get(key)
+        post = self.is_valid_post(post_id)
+
+        if not self.is_author(post):
+            self.redirect('/blog')
+            return
 
         post.content = data['post']
         post.subject = data['subject']

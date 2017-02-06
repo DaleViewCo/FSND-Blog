@@ -7,6 +7,7 @@ class BlogFront(BlogHandler):
     def get(self):
         if not self.user:
             self.redirect("/login")
+            return
 
         # get all posts in reverse order of creation
 

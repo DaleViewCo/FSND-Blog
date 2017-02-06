@@ -25,11 +25,11 @@ function cancelEditPost(post_id){
 function deletePost(post_id){
 	$.ajax({
 		type: 'post',
+		url: '/blog/deletepost',
 		contentType: 'application/json',
 		dataType: 'json',
 		data: JSON.stringify({
-			'pid': post_id,
-			'type': "DeletePost"
+			'pid': post_id
 		}),
 		success: function(response){
 			// remove the entire permalink content and replace with
