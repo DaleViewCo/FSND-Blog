@@ -1,6 +1,7 @@
 function addLike(post_id){
 	$.ajax({
 		type: 'post',
+		url: '/blog/like',
 		contentType: 'application/json',
 		dataType: 'json',
 		data: JSON.stringify({

@@ -46,13 +46,13 @@ function submitEdit(event, comment_id, post_id){
 		var new_text = $("textarea#" + comment_id).val().trim();
 		$.ajax({
 			type: 'post',
+			url: '/blog/editcomment',
 			contentType: 'application/json',
 			dataType: 'json',
 			data: JSON.stringify({
 				'pid': post_id,
 				'comment-id': comment_id,
 				'edited-comment': new_text,
-				'type': "EditComment"
 			}),
 			success: function(response){
 				var new_comment = $("<p id="+comment_id+" class=comment-text/>");
@@ -69,6 +69,7 @@ function submitEdit(event, comment_id, post_id){
 function deleteComment(comment_id, post_id){
 	$.ajax({
 		type: 'post',
+		url: '/blog/deletecomment',
 		contentType: 'application/json',
 		dataType: 'json',
 		data: JSON.stringify({
