@@ -15,15 +15,16 @@ class NewComment(BlogHandler):
         post_id = data['pid']
         comment_text = data['comment']
         user_id = str(self.read_secure_cookie('user_id'))
-        post = self.get_post(post_id)
 
         if not self.user:
             self.redirect('/login')
             return
 
-        if not post:
+        if not self.is_valid_post(post_id):
             self.redirect('/blog')
             return
+
+        post = self.get_post(post_id)
 
         commentdb = Comment(
             author_id=user_id,

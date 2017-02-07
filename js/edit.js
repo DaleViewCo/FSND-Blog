@@ -7,7 +7,8 @@ function editPost(post_id){
 		dataType: 'json',
 		data: JSON.stringify({
 			'subject': subject,
-			'post': post_content
+			'post': post_content,
+			'pid': post_id
 		}),
 		success: function(){
 			window.location.replace('/blog/'+ post_id);

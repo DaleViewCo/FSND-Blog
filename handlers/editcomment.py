@@ -15,18 +15,21 @@ class EditComment(BlogHandler):
         comment_id = data['comment-id']
         comment_text = data['edited-comment']
 
-        post = self.get_post(post_id)
-        comment = self.get_comment(comment_id)
-
         if not self.user:
             self.redirect('/login')
             return
 
-        if not self.is_author(comment):
-            self.error(404)
+        if not self.is_valid_post(post_id):
+            self.redirect('/blog')
             return
 
-        if not post or not comment:
+        if not self.is_valid_comment(comment_id):
+            self.redirect('/blog')
+            return
+
+        comment = self.get_comment(comment_id)
+
+        if not self.is_author(comment):
             self.redirect('/blog')
             return
 

@@ -1,5 +1,4 @@
 from handlers.bloghandler import BlogHandler
-from google.appengine.ext import db
 import main
 import json
 
@@ -12,7 +11,12 @@ class EditPost(BlogHandler):
             return
 
         post_id = url.replace("/edit",  "")
-        post = self.is_valid_post(post_id)
+
+        if not self.is_valid_post(post_id):
+            self.redirect('/blog')
+            return
+
+        post = self.get_post(post_id)
 
         if not self.is_author(post):
             self.redirect('/blog')
@@ -25,11 +29,14 @@ class EditPost(BlogHandler):
             self.redirect("/login")
             return
 
-        # get post id from the url
-        post_id = url.replace("/edit",  "")
-
         data = main.json_loads_byteified(self.request.body)
-        post = self.is_valid_post(post_id)
+        post_id = data['pid']
+
+        if not self.is_valid_post(post_id):
+            self.redirect('/blog')
+            return
+
+        post = self.get_post(post_id)
 
         if not self.is_author(post):
             self.redirect('/blog')

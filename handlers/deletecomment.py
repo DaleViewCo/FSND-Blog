@@ -14,19 +14,23 @@ class DeleteComment(BlogHandler):
         post_id = data['pid']
         comment_id = data['comment-id']
 
-        post = self.get_post(post_id)
-        comment = self.get_comment(comment_id)
-
         if not self.user:
             self.redirect('/login')
             return
 
-        if not post or not comment:
+        if not self.is_valid_post(post_id):
             self.redirect('/blog')
             return
 
+        if not self.is_valid_comment(comment_id):
+            self.redirect('/blog')
+            return
+
+        post = self.get_post(post_id)
+        comment = self.get_comment(comment_id)
+
         if not self.is_author(comment):
-            self.error(404)
+            self.redirect('/blog')
             return
 
         comment.delete()

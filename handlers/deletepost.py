@@ -11,15 +11,16 @@ class DeletePost(BlogHandler):
     def post(self):
         data = main.json_loads_byteified(self.request.body)
         post_id = data['pid']
-        post = self.get_post(post_id)
 
         if not self.user:
             self.redirect('/login')
             return
 
-        if not post:
+        if not self.is_valid_post(post_id):
             self.redirect('/blog')
             return
+
+        post = self.get_post(post_id)
 
         if not self.is_author(post):
             self.redirect('/blog')
@@ -27,7 +28,8 @@ class DeletePost(BlogHandler):
 
         for cid in post.comments:
             comment = self.get_comment(cid)
-            comment.delete()
+            if comment:
+                comment.delete()
 
         post.delete()
         result = {}

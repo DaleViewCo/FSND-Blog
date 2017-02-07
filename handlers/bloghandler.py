@@ -34,24 +34,22 @@ class BlogHandler(webapp2.RequestHandler):
         self.response.headers.add_header('Set-Cookie', 'user_id=; Path=/')
 
     def is_author(self, entry):
-        return (self.user and entry
-                and self.read_secure_cookie('user_id') == str(entry.author_id))
+        return self.user and self.read_secure_cookie('user_id') == str(
+            entry.author_id)
 
     def is_valid_post(self, post_id):
         post = self.get_post(post_id)
         if post:
-            return post
+            return True
         else:
-            self.error(404)
-            return
+            return False
 
     def is_valid_comment(self, comment_id):
         comment = self.get_comment(comment_id)
         if comment:
-            return comment
+            return True
         else:
-            self.error(404)
-            return
+            return False
 
     def get_post(self, post_id):
         key = db.Key.from_path('Post', int(post_id), parent=main.blog_key())
@@ -63,16 +61,6 @@ class BlogHandler(webapp2.RequestHandler):
             'Comment', int(comment_id))
         commentdb = db.get(comment_key)
         return commentdb
-
-    # def post_exists(function):
-    #     def check_post(self, post_id):
-    #         key = db.Key.from_path('Post', int(post_id))
-    #         post = db.get(key)
-    #         if post:
-    #             return function(self, post)
-    #         else:
-    #             self.error(404)
-    #             return
 
     def initialize(self, *a, **kw):
         webapp2.RequestHandler.initialize(self, *a, **kw)
